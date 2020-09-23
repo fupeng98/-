@@ -1,0 +1,308 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+ <%@ page language="java" import="java.util.*" %>
+<%@ page language="java" import="java.sql.*" %>
+<%@ page language="java" import="java.util.regex.*" %>
+<%	
+List<Map<String, Object>> item1 = (List<Map<String, Object>>)request.getAttribute("item1");
+List<Map<String, Object>> item2 = (List<Map<String, Object>>)request.getAttribute("item2");
+List<Map<String, Object>> item3 = (List<Map<String, Object>>)request.getAttribute("item3");
+List<Map<String, Object>> item4 = (List<Map<String, Object>>)request.getAttribute("item4");
+List<Map<String, Object>> item5 = (List<Map<String, Object>>)request.getAttribute("item5");
+List<Map<String, Object>> item6 = (List<Map<String, Object>>)request.getAttribute("item6");
+%>
+    
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>蒲公英分享网</title>
+		<link rel="stylesheet" type="text/css" href="css/comm.css"/>
+		<link rel="stylesheet" type="text/css" href="css/slide.css"/>
+		<style type="text/css">
+			body{
+				background-image: url(img/zy.gif);
+				
+				background-attachment: fixed;
+				
+			}
+			
+			.header{
+				
+				width: 1200px;
+				height: 80px;
+				line-height: 35px;
+				border-top: solid 3px pink;
+				
+				margin: 20px auto;
+				
+			}
+			
+			.header ul{
+				list-style: none;
+				margin: 0 auto;
+				width: 1200px;
+			}
+			
+			.header ul li{
+				line-height: 35px;
+				float: left;
+				padding: 0 15px;
+			}
+			
+			.header ul li:hover {
+				background-color: #333;
+			}
+			.header ul li a{
+				text-decoration: none;
+				color: #fff;
+			}		
+			.main{
+				width: 1200px;
+				margin: 0 auto;
+				overflow: hidden;
+				
+			}	
+			
+			
+			.newsitem{
+				width:388px;
+				height:252px;
+				float: left;
+				
+				margin-top: 10px;
+				margin-right: 10px;
+				
+			}
+			
+			
+			.itemright{
+				margin-right:0;
+				width: 398px;
+			}
+			.newsitem .title{
+				height: 35px;
+				line-height: 35px;
+				padding-left: 10px;
+				
+				background-color: peachpuff;
+				color: black;
+				opacity: 0.9;
+				border-radius: 5px;
+				
+			}
+			
+			.newsitem a {
+				line-height:30px;
+				
+				display: block;
+				padding-left: 10px;
+				
+			}
+			
+			.footer{
+				clear: both;
+				height:250px;
+				width: 1200px;
+				margin: 0 auto;
+				margin-top: 10px;
+				padding-top: 50px;
+				background-repeat: no-repeat;
+				background-position: 50px 30px;
+				opacity: 0.5;
+				
+			}
+			
+			.footer p{
+				padding-top: 50px;
+				color: white;
+				line-height: 35px;
+				font-size: 14px;
+				text-align: center;
+			}
+			.logo{
+				width: 1200px;
+				height: 300px;
+				margin: 0 auto;
+				
+				opacity: 0.95;
+				
+			}
+			span{
+				color: white;
+				font-family: "blackadder itc";
+				font-size: 120px;
+				padding-left: 50px;
+				
+			}
+			#smalllogo{
+				padding-left: 250px;
+			}
+			.word{
+				padding-top: 100px;
+				width: 1200px;
+				height: 300px;
+				margin: 0 auto;
+				
+				text-align: center;
+			}
+			#miss{
+				
+				border: solid 2px #eee;
+				opacity: 0.8;
+				border-radius: 15px;
+				height: 50px;
+				line-height: 50px;
+				font-size: 20px;
+				color: orangered;
+			}
+			#share{
+				padding-top: 100px;
+				font-size: 16px;
+				color: #eee;
+				opacity: 0.5;
+			}
+			
+			.contents li a{
+				color: white;
+				opacity: 0.9;
+			}
+			
+			
+		</style>
+	</head>
+	<body>
+	<div class="header">
+		<ul>
+			<li><a href="index">首页</a></li>
+			<li><a href="uinewslist?typeid=1">书籍</a></li>
+			<li><a href="uinewslist?typeid=2">影视</a></li>
+			<li><a href="uinewslist?typeid=3">音乐</a></li>
+			<li><a href="uinewslist?typeid=4">美食</a></li>
+			<li><a href="uinewslist?typeid=5">娱乐</a></li>
+			<li><a href="uinewslist?typeid=6">旅游</a></li>
+			<li><a href="guestbookadd.jsp">在线留言</a></li>
+			<li><a href="ours.jsp">关于我们</a></li>
+		</ul>
+	</div>
+	<div class="logo">
+		<span id="smalllogo"><img src="img/pgy.png"/></span>
+		<span>dandelion</span>
+	</div>
+	<div class="word">
+		<div id="miss">
+			3,345,585人在这里相遇
+		</div>
+		<div id="share">
+		欢迎来到蒲公英分享网，这里是我们对日常生活的分享，记录我们美好的生活.
+		<p>希望你们可以在这里找到共鸣。</p>
+		</div>
+	</div>
+	<div class="main">
+		
+		
+		<div class="newswrapper">
+			<div class="newsitem">
+				<div class="title">
+					书籍推荐
+				</div>
+				<ul class="contents">
+				  <%for (Map<String, Object> m : item1) { %>
+					<li><a href="newsview?id=<%=m.get("id") %>"><%=m.get("title") %></a></li>
+					<%} %>
+				</ul>
+			</div>
+			
+			<div class="newsitem">
+				<div class="title">
+					影视推荐
+				</div>
+				<ul class="contents">
+					 <%for (Map<String, Object> m : item2) { %>
+					<li><a href="newsview?id=<%=m.get("id") %>"><%=m.get("title") %></a></li>
+					<%} %>
+				</ul>
+			</div>
+			
+			<div class="newsitem itemright">
+				<div class="title">
+					音乐推荐
+				</div>
+				<ul class="contents">
+					 <%for (Map<String, Object> m : item3) { %>
+					<li><a href="newsview?id=<%=m.get("id") %>"><%=m.get("title") %></a></li>
+					<%} %>
+				</ul>
+			</div>
+			
+			
+			<div class="newsitem">
+				<div class="title">
+					美食推荐
+				</div class="contents">
+				<ul class="contents">
+					 <%for (Map<String, Object> m : item4) { %>
+					<li><a href="newsview?id=<%=m.get("id") %>"><%=m.get("title") %></a></li>
+					<%} %>
+				</ul>
+			</div>
+			
+			<div class="newsitem ">
+				<div class="title">
+					娱乐推荐
+				</div>
+				<ul class="contents">
+					 <%for (Map<String, Object> m : item5) { %>
+					<li><a href="newsview?id=<%=m.get("id") %>"><%=m.get("title") %></a></li>
+					<%} %>
+				</ul>
+			</div>
+			
+			<div class="newsitem itemright">
+				<div class="title">
+					旅游推荐
+				</div>
+				<ul class="contents">
+					<%for (Map<String, Object> m : item6) { %>
+					<li><a href="newsview?id=<%=m.get("id") %>"><%=m.get("title") %></a></li>
+					<%}%>
+				</ul>
+			</div>
+		</div>
+		
+	</div>
+	<div class="footer">
+		
+<p>©ALIMAMA MUX, powered by alimama THX.法律声明</p>
+<p>转载内容版权归作者及来源网站所有，本站原创内容转载请注明来源，商业媒体及纸媒请先联系：sangxing@taobao.com</p>
+	</div>
+		
+		<script src="js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/tyslide.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$("#ppt01").tyslide({
+			boxh:250,//盒子的高度
+			w:1200,//盒子的宽度
+			h:250,//图片的高度
+			isShow:true,//是否显示控制器
+			isShowBtn:true,//是否显示左右按钮
+			controltop:5,//控制按钮上下偏移的位置,要将按钮向下移动   首先保证boxh 高度>图片 h
+			controlsW:60,//控制按钮宽度
+			controlsH:10,//控制按钮高度
+			radius:0,//控制按钮圆角度数
+			controlsColor:"#eee",//普通控制按钮的颜色
+			controlsCurrentColor:"#ccc"//当前控制按钮的颜色
+		});
+		
+		    $(".menu li").mouseenter(function(){
+				$(this).find(".submenu").stop(true,true).slideDown();
+			});
+			
+			$(".menu li").mouseleave(function(){
+				$(this).find(".submenu").stop(true,true).slideUp();
+			});
+		</script>
+	</body>
+</html>
+
+    
